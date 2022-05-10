@@ -3,11 +3,12 @@ import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 
 export default function Model(props) {
-  const mesh = useRef()
+  const group = useRef()
   const { nodes, materials } = useGLTF('/car.glb')
 
   return (
-    <group position={[5, 0, 0]} {...props} dispose={null}>
+
+    <group position={[0, 0, 0]}  {...props} dispose={null}>
       <mesh
         castShadow
         receiveShadow
@@ -27,7 +28,6 @@ export default function Model(props) {
         scale={1.72}
       />
       <mesh
-        ref={mesh}
         castShadow
         receiveShadow
         geometry={nodes.Cube.geometry}

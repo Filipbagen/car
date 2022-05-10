@@ -9,8 +9,10 @@ import {
   PresentationControls,
   OrbitControls,
   Cloud,
+  Stars, Sky, ScrollControls, Scroll
 } from '@react-three/drei'
-import Car from './Car'
+import Car from './components/Car'
+import RotationWrapper from './components/RotationWrapper'
 
 const MyMesh = () => {
   const refMesh = useRef()
@@ -20,7 +22,7 @@ const MyMesh = () => {
     refMesh.current.rotation.y = a
     refMesh.current.rotation.x = a
     refMesh.current.rotation.z = a
-    refMesh.current.translateZ = a
+    
   })
   return (
     <mesh ref={refMesh}>
@@ -31,23 +33,29 @@ const MyMesh = () => {
 }
 
 export default function App() {
+  const scroll = useRef(0);
   return (
     <Canvas dpr={[1, 2]} shadows camera={{ position: [0, 5, 15], fov: 45 }}>
       {/* <OrbitControls /> */}
       <color attach='background' args={['#101010']} />
       <fog attach='fog' args={['#101010', 10, 20]} />
       <Suspense fallback={null}>
-        <Environment path='/cube' />
-        <MyMesh />
-        {/* <PresentationControls speed={1.5} global zoom={1} polar={[-0.1, Math.PI / 4]}> */}
-        {/* <Cloud opacity={0.2} speed={0.4} width={10} depth={-1} segments={20} /> */}
-        {/* <Stage environment={null} intensity={1} contactShadow={false} shadowBias={-0.0015}> */}
-        <ambientLight intensity={1} />
 
-        <Car />
-        {/* </Stage> */}
+
+        <Environment path='/cube' />
+        
+        {/* <PresentationControls speed={1.5} global zoom={1} polar={[-0.1, Math.PI / 4]} snap={true} > */}
+
+        <Stage environment={null} intensity={1} contactShadow={false} shadowBias={-0.0015}>
+
+        <RotationWrapper scroll={scroll}>
+        <Car rotation={[0,0,0]} />
+        </RotationWrapper>
+        
+        </Stage>
+        
         <mesh rotation={[-Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[170, 170]} />
+          <planeGeometry args={[170, 170]} /> 
           <MeshReflectorMaterial
             blur={[300, 100]}
             resolution={2048}
@@ -61,7 +69,8 @@ export default function App() {
             metalness={0.5}
           />
         </mesh>
-        {/* </PresentationControl> */}
+        
+        {/* </PresentationControls> */}
       </Suspense>
     </Canvas>
   )
