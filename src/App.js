@@ -9,7 +9,10 @@ import {
   PresentationControls,
   OrbitControls,
   Cloud,
-  Stars, Sky, ScrollControls, Scroll
+  Stars,
+  Sky,
+  ScrollControls,
+  Scroll,
 } from '@react-three/drei'
 import Car from './components/Car'
 import RotationWrapper from './components/RotationWrapper'
@@ -19,43 +22,49 @@ const MyMesh = () => {
 
   useFrame(({ clock }) => {
     const a = Math.sin(clock.getElapsedTime())
-    refMesh.current.rotation.y = a
-    refMesh.current.rotation.x = a
-    refMesh.current.rotation.z = a
-    
+    // refMesh.current.rotation.y = a
+    // refMesh.current.rotation.x = a
+    // refMesh.current.rotation.z = a
   })
   return (
-    <mesh ref={refMesh}>
-      <boxGeometry></boxGeometry>
-      <meshLambertMaterial color={'red'}></meshLambertMaterial>
-    </mesh>
+    <group
+      onWheel={(e) => {
+        let a = document.body.scrollTop
+        let b = document.body.scrollHeight - document.body.clientHeight
+        let c = a / b
+        console.log(c)
+        refMesh.current.rotation.y = c
+      }}
+    >
+      <mesh ref={refMesh}>
+        <boxGeometry></boxGeometry>
+        <meshLambertMaterial color={'red'}></meshLambertMaterial>
+      </mesh>
+    </group>
   )
 }
 
 export default function App() {
-  const scroll = useRef(0);
+  const scroll = useRef(0)
   return (
-    <Canvas dpr={[1, 2]} shadows camera={{ position: [0, 5, 15], fov: 45 }}>
+    <Canvas dpr={[1, 2]} shadows camera={{ fov: 45 }}>
       {/* <OrbitControls /> */}
       <color attach='background' args={['#101010']} />
       <fog attach='fog' args={['#101010', 10, 20]} />
       <Suspense fallback={null}>
-
-
         <Environment path='/cube' />
-        
+
         {/* <PresentationControls speed={1.5} global zoom={1} polar={[-0.1, Math.PI / 4]} snap={true} > */}
 
         <Stage environment={null} intensity={1} contactShadow={false} shadowBias={-0.0015}>
-
-        <RotationWrapper scroll={scroll}>
-        <Car rotation={[0,0,0]} />
-        </RotationWrapper>
-        
+          <RotationWrapper scroll={scroll}>
+            {/* <Car rotation={[0, 0, 0]} /> */}
+            <MyMesh />
+          </RotationWrapper>
         </Stage>
-        
+
         <mesh rotation={[-Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[170, 170]} /> 
+          <planeGeometry args={[170, 170]} />
           <MeshReflectorMaterial
             blur={[300, 100]}
             resolution={2048}
@@ -69,7 +78,7 @@ export default function App() {
             metalness={0.5}
           />
         </mesh>
-        
+
         {/* </PresentationControls> */}
       </Suspense>
     </Canvas>
