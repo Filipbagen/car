@@ -11,7 +11,7 @@ const Overlay = forwardRef(({ caption, scroll }, ref) => (
       }
       let progress = scroll.current.toFixed(2)
       let grad = ((progress * 360) / 1).toFixed(0)
-      caption.current.innerText = `${Math.abs(grad)}°`
+      //   caption.current.innerText = `${Math.abs(grad)}°`
     }}
     className='scroll'
   >
@@ -19,9 +19,7 @@ const Overlay = forwardRef(({ caption, scroll }, ref) => (
     <div className='slide'>90°</div>
     <div className='slide'>180°</div>
     <div className='slide'>270°</div>
-    {/* <span className='caption' ref={caption}>
-      0°
-    </span> */}
+    <span className='caption'>McLaren</span>
   </div>
 ))
 

@@ -3,8 +3,12 @@ import { Suspense, useLayoutEffect, useState, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { useGLTF, MeshReflectorMaterial, Environment, Stage } from '@react-three/drei'
 import Car from './components/Car'
+import Steer from './components/Steer'
 import RotationWrapper from './components/RotationWrapper'
+import RotationWrapperSteer from './components/RotationWrapperSteer'
 import Overlay from './components/Overlay'
+import { BoxGeometry } from 'three'
+import { MeshLambertMaterial } from 'three'
 
 const MyMesh = () => {
   const refMesh = useRef()
@@ -16,20 +20,10 @@ const MyMesh = () => {
     // refMesh.current.rotation.z = a
   })
   return (
-    // <group
-    //   onWheel={(e) => {
-    //     let a = document.body.scrollTop
-    //     let b = document.body.scrollHeight - document.body.clientHeight
-    //     let c = a / b
-    //     console.log(c)
-    //     refMesh.current.rotation.y = c
-    //   }}
-    // >
-    <mesh ref={refMesh}>
-      <boxGeometry></boxGeometry>
-      <meshLambertMaterial color={'red'}></meshLambertMaterial>
-    </mesh>
-    // {/* </group> */}
+    <group onClick={(e) => console.log('click')}>
+      <BoxGeometry />
+      <MeshLambertMaterial />
+    </group>
   )
 }
 
@@ -51,9 +45,12 @@ export default function App() {
           <Stage environment={null} intensity={1} contactShadow={false} shadowBias={-0.0015}>
             <RotationWrapper scroll={scroll}>
               <Car rotation={[0, 0, 0]} />
-              {/* <MyMesh /> */}
             </RotationWrapper>
           </Stage>
+
+          <RotationWrapperSteer scroll={scroll}>
+            <Steer rotation={[0, 0.5, 0]} scale={0.8} position={[0, 2, 0]} />
+          </RotationWrapperSteer>
 
           <mesh rotation={[-Math.PI / 2, 0, 0]}>
             <planeGeometry args={[170, 170]} />
