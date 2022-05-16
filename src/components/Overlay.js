@@ -15,10 +15,8 @@ const Overlay = forwardRef(({ caption, scroll }, ref) => (
     }}
     className='scroll'
   >
-    <div className='slide'>0°</div>
-    <div className='slide'>90°</div>
-    <div className='slide'>180°</div>
-    <div className='slide'>270°</div>
+    <div className='slide'></div>
+    <div className='slide'></div>
     <span className='caption'>McLaren</span>
   </div>
 ))

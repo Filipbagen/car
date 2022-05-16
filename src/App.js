@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { Suspense, useLayoutEffect, useState, useRef } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import { useGLTF, MeshReflectorMaterial, Environment, Stage } from '@react-three/drei'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { useGLTF, MeshReflectorMaterial, Environment, Stage, OrbitControls } from '@react-three/drei'
 import Car from './components/Car'
 import Steer from './components/Steer'
 import RotationWrapper from './components/RotationWrapper'
@@ -31,9 +31,10 @@ export default function App() {
   const scroll = useRef(0)
   const overlay = useRef()
   const caption = useRef()
+
   return (
     <>
-      <Canvas dpr={[1, 2]} shadows camera={{ fov: 45 }} onCreated={(state) => state.events.connect(overlay.current)}>
+      <Canvas dpr={[1, 2]} shadows camera={{ fov: 45, position: [0,4,10] }} onCreated={(state) => state.events.connect(overlay.current)}>
         {/* <OrbitControls /> */}
         <color attach='background' args={['#101010']} />
         <fog attach='fog' args={['#101010', 10, 20]} />
@@ -42,15 +43,17 @@ export default function App() {
 
           {/* <PresentationControls speed={1.5} global zoom={1} polar={[-0.1, Math.PI / 4]} snap={true} > */}
 
-          <Stage environment={null} intensity={1} contactShadow={false} shadowBias={-0.0015}>
+          {/* <Stage environment={null} intensity={1} contactShadow={false} shadowBias={-0.0015}> */}
             <RotationWrapper scroll={scroll}>
-              <Car rotation={[0, 0, 0]} />
+              <Car rotation={[0, -0.6, 0]} position={[0,-0.3,0]} />
             </RotationWrapper>
-          </Stage>
+          {/* </Stage> */}
 
-          <RotationWrapperSteer scroll={scroll}>
-            <Steer rotation={[0, 0.5, 0]} scale={0.8} position={[0, 2, 0]} />
-          </RotationWrapperSteer>
+          {/* <RotationWrapperSteer scroll={scroll}>
+            <Steer rotation={[0, 0.5, 0]} scale={0.8} position={[5,0,0]} />
+          </RotationWrapperSteer> */}
+
+          {/* <OrbitControls/> */}
 
           <mesh rotation={[-Math.PI / 2, 0, 0]}>
             <planeGeometry args={[170, 170]} />
@@ -63,7 +66,8 @@ export default function App() {
               depthScale={1.2}
               minDepthThreshold={0.4}
               maxDepthThreshold={1.4}
-              color='#101010'
+              // color='#101010'
+              color='red'
               metalness={0.5}
             />
           </mesh>
