@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Subrayada:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@800&display=swap');
+
 * {
   box-sizing: border-box;
 }
@@ -17,8 +21,6 @@ body {
   background: #202025;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat+Subrayada:wght@700&display=swap');
-
 .scroll {
   position: absolute;
   top: 0;
@@ -34,17 +36,15 @@ body {
 }
 
 .caption {
-  pointer-events: none;
+  font-family: 'Barlow', sans-serif;
   position: fixed;
-  top: 1.5em;
-  left: 25%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  font-size: 6em;
-  font-weight: 100;
-  font-family: 'Montserrat Subrayada', sans-serif;
-  line-height: 1em;
-  color: white;
+  font-size: 122px;
+  background: -webkit-linear-gradient(#e66465, #9198e5);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  top: 0px;
+  text-align: center;
+  width: 100vw;
 }
 
 @media (min-width: 800px) {
@@ -56,9 +56,19 @@ body {
   }
 
   .slide {
-    height: 200vh;
+    font-family: 'Inter', sans-serif;
+    font-size: 34px;
+    color: white;
+    bottom: 0;
+    height: 100vh;
     width: 100vw;
     visibility: visible;
+  }
+
+  .slide p {
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    width: 600px;
   }
 
   .scroll > div {

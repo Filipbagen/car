@@ -8,23 +8,37 @@ export default function RotationWrapper(props) {
   const { width, height } = useThree((state) => state.viewport)
   // This reference will give us direct access to the THREE.Mesh object
   const group = useRef()
-  // console.log('props: ' + {props})
-  // const { width, height } = useThree((state) => state.viewport)
-
-  // group.current.position.x = width
 
   // Subscribe this component to the render-loop, rotate the mesh every frame
   useFrame((state, delta) => {
-    // let test = THREE.MathUtils.damp(group.current.position.x, -width, 1, delta)
-
-    group.current.rotation.y = THREE.MathUtils.degToRad((props.scroll.current * 360))
+    let scrollProgress = props.scroll.current
     
-    console.log(group.current.position.x)
-    // group.current.position.x = -props.scroll.current *width
+    // group.current.rotation.y = THREE.MathUtils.degToRad((props.scroll.current * 360))
 
-    // if (group.current.rotation.y > Math.PI / 2) {
-      group.current.position.x = -props.scroll.current * width
-    // } 
+
+
+    if (scrollProgress >= 0 && scrollProgress <= 0.2) {
+      group.current.position.y = 0
+      group.current.rotation.y = THREE.MathUtils.degToRad((props.scroll.current * 360))
+      
+    } else if (scrollProgress > 0.2 && scrollProgress < 1) {
+      group.current.position.y = (scrollProgress - 0.2) * height
+    }
+
+
+
+
+
+
+
+    // if (scrollProgress >= 0 && scrollProgress <= 0.2) {
+    //   group.current.position.lerp(new THREE.Vector3(0, 0, 0), 0.05)
+    //   group.current.rotation.y = THREE.MathUtils.degToRad((props.scroll.current * 360))
+
+    // } else if (scrollProgress > 0.2 && scrollProgress < 1) {
+    //   // group.current.rotation.y = THREE.MathUtils.degToRad((props.scroll.current * 360))
+    //   group.current.position.lerp(new THREE.Vector3(-props.scroll.current * width, 0, 0), 0.05)
+    // }
    
   })
 
