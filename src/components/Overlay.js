@@ -16,8 +16,18 @@ const Overlay = forwardRef(({ caption, scroll }, ref) => (
     className='scroll'
   >
     <div className='slide'>
+      <p>McLaren Racing Limited is a British motor racing team based at the McLaren Technology Centre in Woking, Surrey, England.</p>
+    </div>
+    <div className='slide'>
+      <p>McLaren Racing Limited is a British motor racing team based at the McLaren Technology Centre in Woking, Surrey, England.</p>
+    </div>
+    <div className='slide'>
+      <p>McLaren Racing Limited is a British motor racing team based at the McLaren Technology Centre in Woking, Surrey, England.</p>
     </div>
     <div className='slide right'>
+      <p>McLaren Racing Limited is a British motor racing team based at the McLaren Technology Centre in Woking, Surrey, England.</p>
+    </div>
+    <div className='slide'>
       <p>McLaren Racing Limited is a British motor racing team based at the McLaren Technology Centre in Woking, Surrey, England.</p>
     </div>
     <div className='slide'>

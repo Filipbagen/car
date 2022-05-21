@@ -10,16 +10,20 @@ export default function RotationWrapperSteer(props) {
   // Subscribe this component to the render-loop, rotate the mesh every frame
   useFrame((state, delta) => {
     let scrollProgress = props.scroll.current
+    const steeringWheel = group.current
 
-    if (scrollProgress <= 0.4) {
-      group.current.visible = false
-      group.current.position.x = [width, 0, 0]
+    if (scrollProgress <= 0.2 && scrollProgress >= 0) {
+      // steeringWheel.visible = false
 
-    } else if (scrollProgress > 0.4 && scrollProgress < 1) {
-      group.current.visible = true
-      // group.current.position.x = -scrollProgress * width
-      group.current.position.lerp(new THREE.Vector3(0, 0, 0), 0.05)
+    } else if (scrollProgress >= 0.2 && scrollProgress <= 1) {
+      // steeringWheel.visible = true
+      steeringWheel.position.x = - width + (scrollProgress - 0.2) * width * 2
+      steeringWheel.rotation.y = -Math.PI + THREE.MathUtils.degToRad((scrollProgress * 360)) * 0.5
     }
+
+    // (steeringWheel.position.x >= width || steeringWheel.position.x <= -width || steeringWheel.position.y >= height || steeringWheel.position.y <= -height) ? steeringWheel.visible = false : steeringWheel.visible = true
+
+    
   })
 
   return (
