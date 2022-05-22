@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { React, Suspense, useLayoutEffect, useState, useRef } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { useGLTF, MeshReflectorMaterial, Environment, Stage, OrbitControls, Text, GradientTexture, Loader } from '@react-three/drei'
+import { useGLTF, MeshReflectorMaterial, Environment, Stage, OrbitControls, Text, GradientTexture, Loader, Lightformer } from '@react-three/drei'
 import Car from './components/Car'
 import SteeringWheel from './components/SteeringWheel'
 import RotationWrapper from './components/RotationWrapper'
@@ -13,18 +13,69 @@ import RotationWrapperText from './components/RotationWrapperText'
 // import Toggle from './components/Toggle'
 import { BoxBufferGeometry } from 'three'
 
-
-
-function Cube(props) {
+function Heading(props) {
   const mesh = useRef()
+  const { width, height } = useThree((state) => state.viewport)
 
   useFrame(( state ) => {
-    mesh.current.rotation.y = THREE.MathUtils.degToRad((props.scroll.current * 360))    
+    let scrollProgress = props.scroll.current
+    let title = mesh.current
+
+    if (scrollProgress <= 0.4) {
+      title.position.y = 0
+      title.rotation.y = THREE.MathUtils.degToRad((props.scroll.current * 360)) * 0.4
+      // console.log(title.rotation.y)
+      
+    } else if (scrollProgress > 0.4 && scrollProgress <= 1) {
+      title.position.y = (scrollProgress - 0.4) * height * 0.8
+      title.rotation.y = 1 + (scrollProgress - 0.4)
+    }
+
   })
   
   return (
     <mesh ref={mesh}>
-      <Car position={[0, -0.4, 0]} rotation={[0, Math.PI / 6, 0]} />
+      <Text
+          position={[0, 2.5, 0]}
+          scale={[15, 15, 1]}
+          anchorX="center"
+          anchorY="top-baseline"
+          font={Barlow}
+          color={'white'}
+        >
+          McLaren
+      </Text>
+    </mesh>
+  )
+}
+
+function Carr(props) {
+  const mesh = useRef()
+  const { width, height } = useThree((state) => state.viewport)
+
+  useFrame(( state ) => {
+    let scrollProgress = props.scroll.current
+    let car = mesh.current
+
+    if (scrollProgress <= 0.35) {
+      // car.position.x = - 0.5
+      car.rotation.y = - THREE.MathUtils.degToRad((props.scroll.current * 360))
+
+    } 
+    else if (scrollProgress >= 0.35 && scrollProgress <= 1) {
+
+      car.position.x = - (scrollProgress - 0.35) * width * 2
+      car.position.z = (scrollProgress - 0.35) * width * 2
+
+      // car.position.x = -0.5 + ( scrollProgress - 0.4 ) * width * 5
+      // car.rotation.y = - THREE.MathUtils.degToRad((props.scroll.current * 360)) - (scrollProgress - 0.4) * 0.5
+
+    }
+  })
+  
+  return (
+    <mesh ref={mesh}>
+      <Car position={[0, -0.4, 0]} rotation={[0, Math.PI / 2, 0]} />
     </mesh>
   )
 } 
@@ -32,18 +83,29 @@ function Cube(props) {
 
 function Wheel(props) {
   const mesh = useRef()
-  // mesh.current.position.x = -
+  const { width, height } = useThree((state) => state.viewport)
 
   useFrame(( state ) => {
-    mesh.current.rotation.y = - THREE.MathUtils.degToRad((props.scroll.current * 360))   
+    let scrollProgress = props.scroll.current
+    let wheel = mesh.current
+
+    if (scrollProgress <= 0.4) {
+      wheel.position.x = width
+
+    } else if (scrollProgress >= 0.4 && scrollProgress <= 1) {
+      wheel.position.x = width - (scrollProgress - 0.4) * width * 3
+      wheel.rotation.y = - Math.sin(scrollProgress * width * Math.PI / 2)
+
+      if (Math.abs(wheel.position.x) < Math.abs(wheel.position.x - 0.01)) {
+        wheel.position.x = 0
+      }
+
+    }
   })
   
   return (
     <mesh ref={mesh}>
-      <SteeringWheel />
-
-      {/* <boxGeometry args={[2, 2, 2]} /> */}
-      {/* <meshPhongMaterial color="#ff0000" opacity={0.5} transparent /> */}
+      <SteeringWheel scale={1.7} />
     </mesh>
   )
 }
@@ -65,18 +127,8 @@ export default function App() {
         <Suspense fallback={null}>
         <Environment path='/cube' />
 
-        <Text
-          position={[0, 2.5, 0]}
-          scale={[15, 15, 1]}
-          anchorX="center"
-          anchorY="top-baseline"
-          font={Barlow}
-          color={'white'}
-        >
-          McLaren
-        </Text>
-
-        <Cube scroll={scroll} />
+        <Heading scroll={scroll}/>
+        <Carr scroll={scroll} />
         <Wheel scroll={scroll} />
 
 
@@ -103,7 +155,6 @@ export default function App() {
     </div>
   );
 }
-
 
 
 
