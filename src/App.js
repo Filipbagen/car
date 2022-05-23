@@ -102,8 +102,8 @@ function Wheel(props) {
       <Html position={[-1, -1, 1]} rotation={[Math.Pi / 2, 0, 0]}>
         <div className='annotation'>
           <span style={{ fontSize: '2.5em ', color: 'white' }}>
-            McLaren Racing Limited is a British motor racing team based at the McLaren Technology Centre in Woking,
-            Surrey, England.
+            McLaren collates 6.5 billion pieces of data from both cars every race, which SAP then helps us to analyse
+            and use to improve future performance.
           </span>
         </div>
       </Html>
